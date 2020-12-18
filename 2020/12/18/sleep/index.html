@@ -1,136 +1,42 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>sleep more | Lambda Walker</title>
+include mixins
 
-  
-  <meta name="author" content="Sen LIANG">
-  
+extends partial/layout
 
-  
-  <meta name="description" content="宝宝睡觉觉了媳妇留言，
-2020-12-18">
-  
+block site_title
+    != page.title + " · " + config.title
 
-  
-  
-  <meta name="keywords" content="">
-  
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
 
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="sleep more"/>
-
-  <meta property="og:site_name" content="Lambda Walker"/>
-
-  
-  <meta property="og:image" content="/favicon.ico"/>
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Lambda Walker" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Lambda Walker</a>
-    </h1>
-    <p class="site-description"></p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-        <li><a href="/categories">Categories</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
-    
-    <h3 class="article-title"><span>sleep more</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/18/sleep/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-18T14:07:18.000Z">
-          2020-12-18
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="宝宝睡觉觉了"><a href="#宝宝睡觉觉了" class="headerlink" title="宝宝睡觉觉了"></a>宝宝睡觉觉了</h1><p>媳妇留言，</p>
-<p>2020-12-18</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-
-
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 Sen LIANG
-    
-  </p>
-</footer>
-    
-    
-  </div>
-</div>
-</body>
-</html>
+block content
+    .autopagerize_page_element: .content: .post-page
+        include mixins
+        +make_post(page, true)
+        .share
+            span= __('share')
+            | &nbsp;
+            span.soc
+                a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
+            span.soc
+                a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
+            span.soc
+                a.fa.fa-twitter(href=url_for("http://twitter.com/home?status=" + "" + config.url + "/" + page.path + "%20" + config.title + "%20" + page.title + ""))
+        - var prev = page.prev ? page.prev.path : false;
+        - var next = page.next ? page.next.path : false;
+        .pagination
+            p.clearfix
+                if prev
+                    span.pre.pagbuttons
+                        a(role="navigation",href=url_for(prev), title=page.prev.title)
+                            i.fa.fa-angle-double-left
+                            |&nbsp;
+                            != __('prev_post')+': ' + page.prev.title
+                if next
+                    span &nbsp;
+                    span.next.pagbuttons
+                        a(role="navigation",href=url_for(next), title=page.next.title)
+                            != __('next_post')+': ' + page.next.title
+                            |&nbsp;
+                            i.fa.fa-angle-double-right
+        include partial/comments

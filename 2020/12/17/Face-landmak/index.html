@@ -1,196 +1,42 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>Lambda Walker</title>
+include mixins
 
-  
-  <meta name="author" content="Sen LIANG">
-  
+extends partial/layout
 
-  
-  <meta name="description" content="Facial Landmark Disentangle Network For Face Reneectment
-1. Introduction
-介绍当前的Talking Face方法的分类，主要分为基于3DMM-based的3D Talking Face，以及基于2D Landmark-based">
-  
+block site_title
+    != page.title + " · " + config.title
 
-  
-  
-  <meta name="keywords" content="">
-  
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
 
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  
-
-  <meta property="og:site_name" content="Lambda Walker"/>
-
-  
-  <meta property="og:image" content="/favicon.ico"/>
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Lambda Walker" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-<meta name="generator" content="Hexo 5.2.0"></head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Lambda Walker</a>
-    </h1>
-    <p class="site-description"></p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-        <li><a href="/categories">Categories</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
-    
-    <h3 class="article-title"><span></span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/17/Face-landmak/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-17T14:56:36.459Z">
-          2020-12-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Facial-Landmark-Disentangle-Network-For-Face-Reneectment"><a href="#Facial-Landmark-Disentangle-Network-For-Face-Reneectment" class="headerlink" title="Facial Landmark Disentangle Network For Face Reneectment"></a>Facial Landmark Disentangle Network For Face Reneectment</h1><hr>
-<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><ol>
-<li><p>介绍当前的Talking Face方法的分类，主要分为基于3DMM-based的3D Talking Face，以及基于2D Landmark-based的2D Talking Face方法。本文主要Focus在基于2D-Landmark的Talking-Face的方法。对于这类方法，里面存在一个非常核心的问题，即Landmark承载着对Identity Persevere以及表情Transfer的问题。为此本文主要是解决这个问题，利用Disentangle Representation Learning方法，建立一个VAE网络，实现对Facial Landmark Identity Perserver Operator.</p>
-</li>
-<li><p>当前基于Landmark的Talking-Head方法，介绍一番，存在一个major challenge，</p>
-</li>
-<li><p>【介绍文章提出来的方法】为了circumvent这个问题，we propose a simple and generic framework to xxxx</p>
-</li>
-<li><p>【介绍方法的Contribution】Despite the simplicity, the proposed xxxx is extremely effective in addressing the previous challenges. We also show that ….  The contribution of this paper are as flows:</p>
-<ol>
-<li>提出了一个xxx 方法</li>
-<li>对pose和Identity的分解….</li>
-<li>Extensive experimental results show that the proposed method achieve state-of-the-art results in both ….</li>
-</ol>
-</li>
-</ol>
-<h2 id="2-Related-Works"><a href="#2-Related-Works" class="headerlink" title="2. Related Works"></a>2. Related Works</h2><h3 id="Face-Reenectment"><a href="#Face-Reenectment" class="headerlink" title="Face Reenectment"></a>Face Reenectment</h3><p>目前Face Reneectment主要是有两种形式，一种是基于3DMM，一种是基于2D Landmark的，这两者都承载着IdentityTransfer的问题。因此需要对3DMM和2DLandmark进行解耦，由于3DMM天然具有解耦功能，而Landmark作为一种稀疏表示，研究者往往忽略了他们也是需要解耦的。</p>
-<ol>
-<li>什么是Face Reneectment？他们的目标是什么？</li>
-<li>当前有哪些方法？基于3DMM有哪些？基于2D Landmark有哪些？</li>
-<li>存在的挑战有哪些？</li>
-<li>我们的方法在里面的地位是什么？</li>
-</ol>
-<h3 id="Disentangle-Representation-Learning"><a href="#Disentangle-Representation-Learning" class="headerlink" title="Disentangle Representation Learning"></a>Disentangle Representation Learning</h3><h4 id="1-什么是DRL"><a href="#1-什么是DRL" class="headerlink" title="1. 什么是DRL"></a>1. 什么是DRL</h4><ol>
-<li><p>represents data using independent factors of variations in data, which can improve the interpretability and transferability of the representation.</p>
-</li>
-<li><p>目标：to discover a set of generative factors, whose elements encoders unique and independent factors of variation in data.</p>
-</li>
-<li><p>当前的非监督DRL, 大部分是基于GAN和VAE框架。</p>
-<ul>
-<li>主要是用additional regulation to encourage the axes of the latent manifold to align with independent generator factors in the data. </li>
-<li>共同特点是：focus on designing the loss function to encourage the factorization of the latent code.</li>
-</ul>
-</li>
-</ol>
-<h4 id="2-当前存在的挑战"><a href="#2-当前存在的挑战" class="headerlink" title="2. 当前存在的挑战"></a>2. 当前存在的挑战</h4><ol>
-<li><p>当前的算法都是在representation learning 和 generation performance之间做Trade-off</p>
-<ul>
-<li><p> 因为提高representation Performance的时候会牺牲Generation Performance</p>
-</li>
-<li><p>VAE-based 方法，在Disentangle Representation方面表现非常好，而their generation quality worse than the state-of-the-art.</p>
-</li>
-<li><p> GAN-based 方法，在High-quality synthesis任务上表现的非常好（with a more expressive decoder and without explicit likelihood estimation, 即不需要自监督），然而在Disentangle方面却不尽人意，甚至is difficult to train（目前有很多方法可以to stabilize the training）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="Landmark-Disentangle-Representation"><a href="#Landmark-Disentangle-Representation" class="headerlink" title="Landmark Disentangle Representation"></a>Landmark Disentangle Representation</h3><p>当前做landmark Disentangle的工作比较少，但有很多类似的工作，比如对3D Mesh进行Disentangle，对Face Image进行Disentangle，以及语音、Video等信息进行Disentangle，然而Face Landmark作为一个Face的一个非常重要的中间载体，常常作为GAN，Face操纵，Face Swap的一个中间表示，非常有必要对其进行Disentangle。</p>
-<ol>
-<li>什么是LDR，其主要目标是什么？</li>
-<li>当前有哪些文章？有哪些相似的工作</li>
-<li>主要的挑战在哪？</li>
-<li>我们的工作与他们的不一样点在哪？</li>
-</ol>
-<h2 id="3-Background-VQ-VAE"><a href="#3-Background-VQ-VAE" class="headerlink" title="3. Background: VQ-VAE"></a>3. Background: VQ-VAE</h2><p>The objective of unsupervised disentangle learning is to describe each data $\color{blue}{x}$ using a set of statistically independent generative factors   $\color{blue}{z}$.</p>
-<ul>
-<li>$\beta$-VAE proposed by optimizing the modified Evidence Lower-Bound (ELBO) of the marginal log-likelihood<br>$$\color{blue}{<br>E_{x\thicksim p(x)}[\log p(x)] \geq E_{x\thicksim p(x)} [E_{z\thicksim q_\phi(x|z)}[\log p_\theta(x|z)] - \beta D_{KL}(q_\phi(z|x) || p(z) ]<br>}$$</li>
-<li><input disabled="" type="checkbox"> 问题1， 为什么VAE和 $\beta$-VAE 具有Disentangle的效果？</li>
-</ul>
-<h2 id="4-Facial-Landmark-Disentangle-Network"><a href="#4-Facial-Landmark-Disentangle-Network" class="headerlink" title="4. Facial Landmark Disentangle Network"></a>4. Facial Landmark Disentangle Network</h2><p>Our objective is to build a generative model … To achieve this goal, we build our framework upon on VAE-based models due to their effectiveness in learning disentangle representations.</p>
-<h3 id="Training-Loss"><a href="#Training-Loss" class="headerlink" title="Training Loss"></a>Training Loss</h3><p>$$ \color{blue}{<br>wing(x) =<br>\begin{cases}<br>    w*ln(1+|x|/\epsilon)  &amp;\text{if } |x| &lt; w \<br>    |x| - C             &amp;\text{otherwise }<br>\end{cases}}<br>$$</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-
-
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 Sen LIANG
-    
-  </p>
-</footer>
-    
-    
-  </div>
-</div>
-</body>
-</html>
+block content
+    .autopagerize_page_element: .content: .post-page
+        include mixins
+        +make_post(page, true)
+        .share
+            span= __('share')
+            | &nbsp;
+            span.soc
+                a.fa.fa-bookmark(href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();", ref="nofollow", target="_blank")
+            span.soc
+                a.fa.fa-weibo(href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));")
+            span.soc
+                a.fa.fa-twitter(href=url_for("http://twitter.com/home?status=" + "" + config.url + "/" + page.path + "%20" + config.title + "%20" + page.title + ""))
+        - var prev = page.prev ? page.prev.path : false;
+        - var next = page.next ? page.next.path : false;
+        .pagination
+            p.clearfix
+                if prev
+                    span.pre.pagbuttons
+                        a(role="navigation",href=url_for(prev), title=page.prev.title)
+                            i.fa.fa-angle-double-left
+                            |&nbsp;
+                            != __('prev_post')+': ' + page.prev.title
+                if next
+                    span &nbsp;
+                    span.next.pagbuttons
+                        a(role="navigation",href=url_for(next), title=page.next.title)
+                            != __('next_post')+': ' + page.next.title
+                            |&nbsp;
+                            i.fa.fa-angle-double-right
+        include partial/comments
